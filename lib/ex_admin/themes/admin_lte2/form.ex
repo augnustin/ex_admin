@@ -226,7 +226,7 @@ defmodule ExAdmin.Theme.AdminLte2.Form do
                 div ".col-sm-10" do
                   markup do
                     if binary_tuple do
-                      build_select_theme_binary_tuple_list(collection, field, field[:name], res, model_name, ext_name)
+                      build_select_theme_binary_tuple_list(collection, field, field[:name], res, model_name, ext_name, base_name)
                     else
                       input_collection(res, collection, model_name, field[:name], nil, nil, field, conn.params, error)
                     end
@@ -314,9 +314,10 @@ defmodule ExAdmin.Theme.AdminLte2.Form do
     end
   end
 
-  defp build_select_theme_binary_tuple_list(collection, field, field_name, resource, model_name, ext_name) do
+  defp build_select_theme_binary_tuple_list(collection, field, field_name, resource, model_name, ext_name, base_name) do
     html_opts = field[:opts][:html_opts] || []
-    html_opts = Keyword.merge([name: "#{model_name}[#{field_name}]"], html_opts)
+
+    html_opts = Keyword.merge([name: "#{base_name}[#{field_name}]"], html_opts)
     select("##{ext_name}_id.form-control", html_opts) do
       handle_prompt(field_name, field)
       for field <- collection do
