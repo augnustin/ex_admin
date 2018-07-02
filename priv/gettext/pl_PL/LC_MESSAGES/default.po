@@ -7,6 +7,7 @@ msgid "was successfully destroyed."
 msgid_plural "zostały usunięte."
 msgstr[0] ""
 msgstr[1] ""
+msgstr[2] ""
 
 #: lib/ex_admin/themes/active_admin/index.ex:145
 #: lib/ex_admin/themes/admin_lte2/index.ex:139

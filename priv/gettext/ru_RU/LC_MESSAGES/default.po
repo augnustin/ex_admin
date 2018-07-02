@@ -7,6 +7,7 @@ msgid "was successfully destroyed."
 msgid_plural "were successfully destroyed."
 msgstr[0] "был успешно уничтожен."
 msgstr[1] "были успешно уничтожены."
+msgstr[2] "были успешно уничтожены."
 
 #: lib/ex_admin/themes/active_admin/index.ex:140
 #: lib/ex_admin/themes/admin_lte2/index.ex:134
