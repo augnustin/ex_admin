@@ -1385,7 +1385,7 @@ defmodule ExAdmin.Form do
   def escape_value(nil), do: nil
   def escape_value(value) when is_map(value), do: value
   def escape_value(value) do
-    Phoenix.HTML.html_escape(value) |> elem(1)
+    Phoenix.HTML.html_escape(value) |> Phoenix.HTML.safe_to_string()
   end
 
   @doc false
