@@ -267,70 +267,70 @@ defmodule ExAdmin.Theme.ActiveAdmin.Form do
           end
 
         # CONFLICT nresni version with smpallen99
-        # for field <- fields do
-        #   f_name = field[:name]
-        #   required = if f_name in required_list, do: true, else: false
-        #   name = "#{base_name}[#{f_name}]"
-        #   errors = get_errors(errors, String.to_atom("#{field_field_name}_#{orig_inx}_#{f_name}"))
-        #   error = if errors in [nil, [], false], do: "", else: ".error"
-        #   case field[:opts] do
-        #     %{collection: collection} ->
-        #       collection = if is_function(collection), do: collection.(conn, res), else: collection
-        #       li ".select.input#{error}", [id: "#{ext_name}_label_input"] do
-        #         label ".label", for: "#{ext_name}_#{f_name}" do
-        #           text humanize(f_name)
-        #           required_abbr required
-        #         end
+        for field <- fields do
+          f_name = field[:name]
+          required = if f_name in required_list, do: true, else: false
+          name = "#{base_name}[#{f_name}]"
+          errors = get_errors(errors, String.to_atom("#{field_field_name}_#{orig_inx}_#{f_name}"))
+          error = if errors in [nil, [], false], do: "", else: ".error"
+          case field[:opts] do
+            %{collection: collection} ->
+              collection = if is_function(collection), do: collection.(conn, res), else: collection
+              li ".select.input#{error}", [id: "#{ext_name}_label_input"] do
+                label ".label", for: "#{ext_name}_#{f_name}" do
+                  text humanize(f_name)
+                  required_abbr required
+                end
 
-        #         binary_tuple = binary_tuple?(collection)
+                binary_tuple = binary_tuple?(collection)
 
-        #         markup do
-        #           if binary_tuple do
-        #             build_select_theme_binary_tuple_list(collection, field, field[:name], res, model_name, ext_name)
-        #           else
-        #             input_collection(res, collection, model_name, field[:name], nil, nil, field, conn.params, error)
-        #           end
-        #           build_errors(errors, field[:opts][:hint])
-        #         end
-        #       end
-        #     _ ->
-        #       li ".string.input.stringish#{error}", id: "#{ext_name}_#{f_name}_input"  do
-        #         label ".label", for: "#{ext_name}_#{f_name}" do
-        #           text humanize(f_name)
-        #           required_abbr required
-          for field <- fields do
-            f_name = field[:name]
-            required = if f_name in required_list, do: true, else: false
-            name = "#{base_name}[#{f_name}]"
-
-            errors =
-              get_errors(errors, String.to_atom("#{field_field_name}_#{orig_inx}_#{f_name}"))
-
-            error = if errors in [nil, [], false], do: "", else: ".error"
-
-            case field[:opts] do
-              %{collection: collection} ->
-                collection =
-                  if is_function(collection), do: collection.(conn, res), else: collection
-
-                li ".select.input#{error}", id: "#{ext_name}_label_input" do
-                  label ".label", for: "#{ext_name}_#{f_name}" do
-                    text(humanize(f_name))
-                    required_abbr(required)
+                markup do
+                  if binary_tuple do
+                    build_select_theme_binary_tuple_list(collection, field, field[:name], res, model_name, ext_name)
+                  else
+                    input_collection(res, collection, model_name, field[:name], nil, nil, field, conn.params, error)
                   end
-
-                  select "##{ext_name}_#{f_name}", name: name do
-                    for opt <- collection do
-                      if not is_nil(res) and Map.get(res, f_name) == opt do
-                        option("#{opt}", value: escape_value(opt), selected: :selected)
-                      else
-                        option("#{opt}", value: escape_value(opt))
-                      end
-                    end
-                  end
-
                   build_errors(errors, field[:opts][:hint])
                 end
+              end
+            _ ->
+              li ".string.input.stringish#{error}", id: "#{ext_name}_#{f_name}_input"  do
+                label ".label", for: "#{ext_name}_#{f_name}" do
+                  text humanize(f_name)
+                  required_abbr required
+          # for field <- fields do
+          #   f_name = field[:name]
+          #   required = if f_name in required_list, do: true, else: false
+          #   name = "#{base_name}[#{f_name}]"
+
+          #   errors =
+          #     get_errors(errors, String.to_atom("#{field_field_name}_#{orig_inx}_#{f_name}"))
+
+          #   error = if errors in [nil, [], false], do: "", else: ".error"
+
+          #   case field[:opts] do
+          #     %{collection: collection} ->
+          #       collection =
+          #         if is_function(collection), do: collection.(conn, res), else: collection
+
+          #       li ".select.input#{error}", id: "#{ext_name}_label_input" do
+          #         label ".label", for: "#{ext_name}_#{f_name}" do
+          #           text(humanize(f_name))
+          #           required_abbr(required)
+          #         end
+
+          #         select "##{ext_name}_#{f_name}", name: name do
+          #           for opt <- collection do
+          #             if not is_nil(res) and Map.get(res, f_name) == opt do
+          #               option("#{opt}", value: escape_value(opt), selected: :selected)
+          #             else
+          #               option("#{opt}", value: escape_value(opt))
+          #             end
+          #           end
+          #         end
+
+          #         build_errors(errors, field[:opts][:hint])
+          #       end
 
               _ ->
                 li ".string.input.stringish#{error}", id: "#{ext_name}_#{f_name}_input" do

@@ -274,66 +274,66 @@ defmodule ExAdmin.Theme.AdminLte2.Form do
           end
 
         # nresni VERSION conflict with smpallen99
-        # for field <- fields do
-        #   f_name = field[:name]
-        #   required = if f_name in required_list, do: true, else: false
-        #   name = "#{base_name}[#{f_name}]"
-        #   errors = get_errors(errors, String.to_atom("#{field_field_name}_#{orig_inx}_#{f_name}"))
-        #   error = if errors in [nil, [], false], do: "", else: ".has-error"
-        #   case field[:opts] do
-        #     %{collection: collection} ->
-        #       collection = if is_function(collection), do: collection.(conn, res), else: collection
-        #       div ".form-group", [id: "#{ext_name}_label_input"] do
-        #         label ".col-sm-2.control-label", for: "#{ext_name}_#{f_name}" do
-        #           text humanize(f_name)
-        #           required_abbr required
-        #         end
-
-        #         binary_tuple = binary_tuple?(collection)
-
-        #         div ".col-sm-10" do
-        #           markup do
-        #             if binary_tuple do
-        #               build_select_theme_binary_tuple_list(collection, field, field[:name], res, model_name, ext_name, base_name)
-        #             else
-        #               input_collection(res, collection, model_name, field[:name], nil, nil, field, conn.params, error)
-        #             end
-          for field <- fields do
-            f_name = field[:name]
-            required = if f_name in required_list, do: true, else: false
-            name = "#{base_name}[#{f_name}]"
-
-            errors =
-              get_errors(errors, String.to_atom("#{field_field_name}_#{orig_inx}_#{f_name}"))
-
-            error = if errors in [nil, [], false], do: "", else: ".has-error"
-
-            case field[:opts] do
-              %{collection: collection} ->
-                collection =
-                  if is_function(collection), do: collection.(conn, res), else: collection
-
-                div ".form-group", id: "#{ext_name}_label_input" do
-                  label ".col-sm-2.control-label", for: "#{ext_name}_#{f_name}" do
-                    text(humanize(f_name))
-                    required_abbr(required)
-                  end
-
-                  div ".col-sm-10" do
-                    select "##{ext_name}_#{f_name}#{error}.form-control", name: name do
-                      for opt <- collection do
-                        cond do
-                          not is_nil(res) and Map.get(res, f_name) == opt ->
-                            option("#{opt}", value: escape_value(opt), selected: :selected)
-
-                          true ->
-                            option("#{opt}", value: escape_value(opt))
-                        end
-                      end
-                    end
-                    build_errors(errors, field[:opts][:hint])
-                  end
+        for field <- fields do
+          f_name = field[:name]
+          required = if f_name in required_list, do: true, else: false
+          name = "#{base_name}[#{f_name}]"
+          errors = get_errors(errors, String.to_atom("#{field_field_name}_#{orig_inx}_#{f_name}"))
+          error = if errors in [nil, [], false], do: "", else: ".has-error"
+          case field[:opts] do
+            %{collection: collection} ->
+              collection = if is_function(collection), do: collection.(conn, res), else: collection
+              div ".form-group", [id: "#{ext_name}_label_input"] do
+                label ".col-sm-2.control-label", for: "#{ext_name}_#{f_name}" do
+                  text humanize(f_name)
+                  required_abbr required
                 end
+
+                binary_tuple = binary_tuple?(collection)
+
+                div ".col-sm-10" do
+                  markup do
+                    if binary_tuple do
+                      build_select_theme_binary_tuple_list(collection, field, field[:name], res, model_name, ext_name, base_name)
+                    else
+                      input_collection(res, collection, model_name, field[:name], nil, nil, field, conn.params, error)
+                    end
+          # for field <- fields do
+          #   f_name = field[:name]
+          #   required = if f_name in required_list, do: true, else: false
+          #   name = "#{base_name}[#{f_name}]"
+
+          #   errors =
+          #     get_errors(errors, String.to_atom("#{field_field_name}_#{orig_inx}_#{f_name}"))
+
+          #   error = if errors in [nil, [], false], do: "", else: ".has-error"
+
+          #   case field[:opts] do
+          #     %{collection: collection} ->
+          #       collection =
+          #         if is_function(collection), do: collection.(conn, res), else: collection
+
+          #       div ".form-group", id: "#{ext_name}_label_input" do
+          #         label ".col-sm-2.control-label", for: "#{ext_name}_#{f_name}" do
+          #           text(humanize(f_name))
+          #           required_abbr(required)
+          #         end
+
+          #         div ".col-sm-10" do
+          #           select "##{ext_name}_#{f_name}#{error}.form-control", name: name do
+          #             for opt <- collection do
+          #               cond do
+          #                 not is_nil(res) and Map.get(res, f_name) == opt ->
+          #                   option("#{opt}", value: escape_value(opt), selected: :selected)
+
+          #                 true ->
+          #                   option("#{opt}", value: escape_value(opt))
+          #               end
+          #             end
+          #           end
+          #           build_errors(errors, field[:opts][:hint])
+          #         end
+          #       end
 
               _ ->
                 val =
