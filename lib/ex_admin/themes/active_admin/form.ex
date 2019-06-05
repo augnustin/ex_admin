@@ -298,6 +298,8 @@ defmodule ExAdmin.Theme.ActiveAdmin.Form do
                 label ".label", for: "#{ext_name}_#{f_name}" do
                   text humanize(f_name)
                   required_abbr required
+                end
+              build_errors(errors, field[:opts][:hint])
 # =======
 #           for field <- fields do
 #             f_name = field[:name]
