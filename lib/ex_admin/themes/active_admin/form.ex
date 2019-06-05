@@ -266,7 +266,6 @@ defmodule ExAdmin.Theme.ActiveAdmin.Form do
             end
           end
 
-# <<<<<<< HEAD
         for field <- fields do
           f_name = field[:name]
           required = if f_name in required_list, do: true, else: false
@@ -299,64 +298,8 @@ defmodule ExAdmin.Theme.ActiveAdmin.Form do
                   text humanize(f_name)
                   required_abbr required
                 end
+              end
               build_errors(errors, field[:opts][:hint])
-# =======
-#           for field <- fields do
-#             f_name = field[:name]
-#             required = if f_name in required_list, do: true, else: false
-#             name = "#{base_name}[#{f_name}]"
-
-#             errors =
-#               get_errors(errors, String.to_atom("#{field_field_name}_#{orig_inx}_#{f_name}"))
-
-#             error = if errors in [nil, [], false], do: "", else: ".error"
-
-#             case field[:opts] do
-#               %{collection: collection} ->
-#                 collection =
-#                   if is_function(collection), do: collection.(conn, res), else: collection
-
-#                 li ".select.input#{error}", id: "#{ext_name}_label_input" do
-#                   label ".label", for: "#{ext_name}_#{f_name}" do
-#                     text(humanize(f_name))
-#                     required_abbr(required)
-#                   end
-
-#                   select "##{ext_name}_#{f_name}", name: name do
-#                     for opt <- collection do
-#                       if not is_nil(res) and Map.get(res, f_name) == opt do
-#                         option("#{opt}", value: escape_value(opt), selected: :selected)
-#                       else
-#                         option("#{opt}", value: escape_value(opt))
-#                       end
-#                     end
-#                   end
-
-#                   build_errors(errors, field[:opts][:hint])
-#                 end
-
-#               _ ->
-#                 li ".string.input.stringish#{error}", id: "#{ext_name}_#{f_name}_input" do
-#                   label ".label", for: "#{ext_name}_#{f_name}" do
-#                     text(humanize(f_name))
-#                     required_abbr(required)
-#                   end
-
-#                   val = if res, do: [value: Map.get(res, f_name, "") |> escape_value], else: []
-
-#                   Xain.input(
-#                     [
-#                       type: :text,
-#                       maxlength: "255",
-#                       id: "#{ext_name}_#{f_name}",
-#                       name: name,
-#                       required: true
-#                     ] ++ val
-#                   )
-
-#                   build_errors(errors, field[:opts][:hint])
-# >>>>>>> 2048340de6600ca11cd6a8ffbfb8bc30f786144b
-                end
             end
           end
 
