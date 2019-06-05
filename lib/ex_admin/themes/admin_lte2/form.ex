@@ -298,6 +298,10 @@ defmodule ExAdmin.Theme.AdminLte2.Form do
                     else
                       input_collection(res, collection, model_name, field[:name], nil, nil, field, conn.params, error)
                     end
+                  end
+                  build_errors(errors, field[:opts][:hint])
+                end
+              end
 # =======
 #           for field <- fields do
 #             f_name = field[:name]
@@ -332,11 +336,10 @@ defmodule ExAdmin.Theme.AdminLte2.Form do
 #                         end
 #                       end
 #                     end
-
+#                     build_errors(errors, field[:opts][:hint])
+#                   end
+#                 end
 # >>>>>>> 2048340de6600ca11cd6a8ffbfb8bc30f786144b
-                    build_errors(errors, field[:opts][:hint])
-                  end
-                end
 
               _ ->
                 val =
