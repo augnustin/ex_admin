@@ -21,7 +21,7 @@ defmodule ExAdmin.ThemeFormTest do
 
     fields = build_fields(pn)
 
-    {inx, html} =
+    {inx, {:safe, html}} =
       AdminLte2.Form.theme_build_has_many_fieldset(
         conn,
         pn,
@@ -82,7 +82,7 @@ defmodule ExAdmin.ThemeFormTest do
       }
     ]
 
-    {inx, html} =
+    {inx, {:safe, html}} =
       AdminLte2.Form.theme_build_has_many_fieldset(
         conn,
         pn,
@@ -108,7 +108,7 @@ defmodule ExAdmin.ThemeFormTest do
 
     fields = build_fields(pn)
 
-    {inx, html} =
+    {inx, {:safe, html}} =
       ActiveAdmin.Form.theme_build_has_many_fieldset(
         conn,
         pn,
