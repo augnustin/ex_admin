@@ -31,7 +31,7 @@ defmodule ExAdmin.Table do
       div ".panel_contents" do
         id = "attributes_table_#{resource_model}_#{primary_key}"
 
-        div ".attributes_table.#{resource_model}#{id}" do
+        div ".attributes_table.#{resource_model}##{id}" do
           table table_opts do
             tbody do
               for field_name <- Map.get(schema, :rows, []) do
@@ -348,8 +348,8 @@ defmodule ExAdmin.Table do
   def handle_contents(contents, field_name) do
     markup do
       td to_class(".td-", field_name) do
-        contents
-        |> HtmlSanitizeEx.html5()
+        Enum.map(List.wrap(contents), &HtmlSanitizeEx.html5/1)
+        |> Enum.join(" ")
         |> Phoenix.HTML.raw()
       end
     end
