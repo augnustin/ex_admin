@@ -775,9 +775,9 @@ defmodule ExAdmin.Form do
         end)
 
       {_, onclick} =
-        Phoenix.HTML.html_escape(
-          theme_module(conn, Form).has_many_insert_item(contents, new_record_name_var)
-        )
+        # Phoenix.HTML.html_escape(
+          {:safe, theme_module(conn, Form).has_many_insert_item(contents, new_record_name_var)}
+        # )
 
       markup do
         html
@@ -1057,9 +1057,9 @@ defmodule ExAdmin.Form do
       html
 
       {_, onclick} =
-        Phoenix.HTML.html_escape(
-          theme_module(conn, Form).has_many_insert_item(contents, new_record_name_var)
-        )
+        # Phoenix.HTML.html_escape(
+          {:safe, theme_module(conn, Form).has_many_insert_item(contents, new_record_name_var)}
+        # )
 
       theme_module(conn, Form).theme_button(
         "Add New #{human_label}",

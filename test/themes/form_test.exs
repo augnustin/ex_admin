@@ -131,7 +131,6 @@ defmodule ExAdmin.ThemeFormTest do
 
     fields = build_fields_with_tuple pn
 
-<<<<<<< HEAD
     {inx, html} = ActiveAdmin.Form.theme_build_has_many_fieldset(conn, pn, fields, 0, "contact_phone_numbers_attributes_0",
       :phone_numbers, "phone_numbers_attributes", "contact", nil)
 
@@ -143,8 +142,6 @@ defmodule ExAdmin.ThemeFormTest do
     assert Floki.find(html, "fieldset ol h3") |> Floki.text == "Phone Number"
   end
 
-=======
->>>>>>> 2048340de6600ca11cd6a8ffbfb8bc30f786144b
   ################
   # Helpers
 
