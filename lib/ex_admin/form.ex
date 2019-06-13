@@ -532,7 +532,7 @@ defmodule ExAdmin.Form do
   def put_script_block(script_block) do
     if script_block do
       Xain.script type: "text/javascript" do
-        text("\n" <> script_block <> "\n")
+        script_block
       end
     end
   end
@@ -1821,13 +1821,13 @@ defmodule ExAdmin.Form do
   def error_messages(other), do: "error: #{inspect(other)}"
 
   def global_script,
-    do: """
-    $(function() {
-      $(document).on('click', '.remove_has_many_maps', function() {
-        console.log('remove has many maps');
-        $(this).closest(".has_many_fields").remove();
-        return false;
+    do: {:safe, """
+      $(function() {
+        $(document).on('click', '.remove_has_many_maps', function() {
+          console.log('remove has many maps');
+          $(this).closest(".has_many_fields").remove();
+          return false;
+        });
       });
-    });
-    """
+    """}
 end
