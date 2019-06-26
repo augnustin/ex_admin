@@ -485,7 +485,7 @@ defmodule ExAdmin.Form do
   """
   defmacro javascript(do: block) do
     quote do
-      var!(script_block, ExAdmin.Form) = unquote(block)
+      var!(script_block, ExAdmin.Form) = unquote({:safe, block})
     end
   end
 
