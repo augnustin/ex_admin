@@ -936,6 +936,11 @@ defmodule ExAdmin.Form do
     text(content)
   end
 
+  def build_item(_conn, %{type: :content, content: {:safe, _string_content} = content}, _resource, _model_name, _errors) do
+    Adminlog.debug("build_item 5.5")
+    content
+  end
+
   def build_item(_conn, %{type: :content, content: content}, _resource, _model_name, _errors) do
     Adminlog.debug("build_item 6.")
     text(elem(content, 1))
