@@ -225,6 +225,38 @@ defmodule ExAdmin.Theme.AdminLte2.Filter do
     end
   end
 
+  def build_field({name, {:embed, %Ecto.Embedded{
+     # cardinality: :one,
+     # field: :booklet_1,
+     # on_cast: nil,
+     # on_replace: :delete,
+     # owner: Vae.Application,
+     # related: Vae.Booklet.Cerfa,
+     # unique: true
+   }}}, q, defn) do
+    name_label = field_label(name, defn)
+    not_null_opts = [
+      id: "q_#{name}_not_null",
+      name: "q[#{name}_is_not_null]",
+      type: :checkbox,
+      value: "true",
+    ] ++ (if q && Map.has_key?(q, "#{name}_is_not_null"), do: [checked: :checked], else: [])
+    null_opts = [
+      id: "q_#{name}_null",
+      name: "q[#{name}_is_null]",
+      type: :checkbox,
+      value: "true",
+    ] ++ (if q && Map.has_key?(q, "#{name}_is_null"), do: [checked: :checked], else: [])
+
+    div ".form-group" do
+      label(".label #{name_label}")
+      input(not_null_opts)
+      label(".label-inline present", for: "q_#{name}_not_null")
+      input(null_opts)
+      label(".label-inline empty", for: "q_#{name}_null")
+    end
+  end
+
   def build_field({name, :boolean}, q, defn) do
     name_label = field_label(name, defn)
     name_field = "#{name}_eq"
