@@ -56,7 +56,7 @@ defmodule ExAdmin.Paginate do
   def pagination_information(name, record_number, last, record_count) do
     markup do
       text(gettext("Displaying %{name}", name: name) <> " ")
-      b("#{record_number}&nbsp;-&nbsp;#{last}")
+      b("#{record_number} - #{last}")
       text(" " <> gettext("of") <> " ")
       b("#{record_count}")
       text(" " <> gettext("in total"))

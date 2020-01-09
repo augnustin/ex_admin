@@ -56,12 +56,9 @@ defmodule ExAdmin.Theme.AdminLte2.Filter do
     selected_name = string_selected_name(name, q)
     value = get_string_value(name, q)
     name_label = field_label(name, defn)
-    # value = if q, do: Map.get(q, name_field, ""), else: ""
     div ".form-group" do
-      label(
-        ".label " <> gettext("Search %{name_label}", name_label: name_label),
-        for: "q_#{name}"
-      )
+      label_with_null_filter(name, q, defn)
+
 
       div ".row" do
         div ".col-xs-6", style: "padding-right: 0" do
@@ -111,7 +108,7 @@ defmodule ExAdmin.Theme.AdminLte2.Filter do
     name_label = field_label(name, defn)
 
     div ".form-group" do
-      label(".label #{name_label}", for: "q_#{name}_gte")
+      label_with_null_filter(name, q, defn)
 
       div ".row" do
         div ".col-xs-6", style: "padding-right: 5px;" do
@@ -160,7 +157,7 @@ defmodule ExAdmin.Theme.AdminLte2.Filter do
       name_label = field_label(name, defn)
 
       div ".form-group" do
-        label(".label #{name_label}", for: "#{name}_numeric")
+        label_with_null_filter(name, q, defn)
 
         div ".row" do
           div ".col-xs-6", style: "padding-right: 0" do
@@ -210,7 +207,7 @@ defmodule ExAdmin.Theme.AdminLte2.Filter do
 
     div ".form-group" do
       title = name_label |> String.replace(" Id", "")
-      label(".label #{title}", for: "q_#{owner_key}")
+      label_with_null_filter(owner_key, q, defn, title)
 
       select "##{id}.form-control", name: "q[#{owner_key}_eq]" do
         option("Any", value: "")
@@ -226,34 +223,10 @@ defmodule ExAdmin.Theme.AdminLte2.Filter do
   end
 
   def build_field({name, {:embed, %Ecto.Embedded{
-     # cardinality: :one,
-     # field: :booklet_1,
-     # on_cast: nil,
-     # on_replace: :delete,
-     # owner: Vae.Application,
-     # related: Vae.Booklet.Cerfa,
-     # unique: true
    }}}, q, defn) do
-    name_label = field_label(name, defn)
-    not_null_opts = [
-      id: "q_#{name}_not_null",
-      name: "q[#{name}_is_not_null]",
-      type: :checkbox,
-      value: "true",
-    ] ++ (if q && Map.has_key?(q, "#{name}_is_not_null"), do: [checked: :checked], else: [])
-    null_opts = [
-      id: "q_#{name}_null",
-      name: "q[#{name}_is_null]",
-      type: :checkbox,
-      value: "true",
-    ] ++ (if q && Map.has_key?(q, "#{name}_is_null"), do: [checked: :checked], else: [])
 
     div ".form-group" do
-      label(".label #{name_label}")
-      input(not_null_opts)
-      label(".label-inline present", for: "q_#{name}_not_null")
-      input(null_opts)
-      label(".label-inline empty", for: "q_#{name}_null")
+      label_with_null_filter(name, q, defn)
     end
   end
 
@@ -290,7 +263,7 @@ defmodule ExAdmin.Theme.AdminLte2.Filter do
       end
 
     div ".form-group" do
-      label(".label #{name_label}", for: "q_#{name}")
+      label_with_null_filter(name, q, defn)
 
       select "##{name}", name: "q[#{name}_eq]", class: "form-control" do
         option("Any", value: "")
@@ -301,6 +274,35 @@ defmodule ExAdmin.Theme.AdminLte2.Filter do
         end
       end
     end
+  end
+
+  def label_with_null_filter(name, q, defn, title \\nil) do
+    not_null_opts = [
+      id: "q_#{name}_is_not_null",
+      name: "q[#{name}_is]",
+      type: :radio,
+      value: "not_null",
+    ] ++ (if q["#{name}_is"] == "not_null", do: [checked: :checked], else: [])
+    null_opts = [
+      id: "q_#{name}_is_null",
+      name: "q[#{name}_is]",
+      type: :radio,
+      value: "null",
+    ] ++ (if q["#{name}_is"] == "null", do: [checked: :checked], else: [])
+
+    p(".label.with-null-filter") do
+      span("#{title || field_label(name, defn)}: ")
+      label(".label-inline", for: "q_#{name}_is_not_null", title: "Present") do
+        input(not_null_opts)
+        span("Present")
+      end
+      span(" ")
+      label(".label-inline", for: "q_#{name}_is_null", title: "Empty") do
+        input(null_opts)
+        span("Empty")
+      end
+    end
+
   end
 
   def build_field({name, type}, _q, _) do
