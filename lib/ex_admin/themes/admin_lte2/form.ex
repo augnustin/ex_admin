@@ -420,7 +420,7 @@ defmodule ExAdmin.Theme.AdminLte2.Form do
     end
   end
 
-  defp build_select_theme_binary_tuple_list(collection, field, field_name, resource, model_name, ext_name, base_name) do
+  defp build_select_theme_binary_tuple_list(collection, field, field_name, resource, _model_name, ext_name, base_name) do
     html_opts = field[:opts][:html_opts] || []
 
     html_opts = Keyword.merge([name: "#{base_name}[#{field_name}]"], html_opts)

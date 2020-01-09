@@ -401,7 +401,7 @@ defmodule ExAdmin.Show do
               """)
       end
 
-      hr
+      hr()
       h4(opts[:label] || "Enter new #{opts[:assoc_name]}")
       ExAdmin.Show.build_association_filler_form(resource, opts[:autocomplete], opts)
     end

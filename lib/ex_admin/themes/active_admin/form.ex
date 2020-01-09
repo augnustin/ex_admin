@@ -269,7 +269,6 @@ defmodule ExAdmin.Theme.ActiveAdmin.Form do
         for field <- fields do
           f_name = field[:name]
           required = if f_name in required_list, do: true, else: false
-          name = "#{base_name}[#{f_name}]"
           errors = get_errors(errors, String.to_atom("#{field_field_name}_#{orig_inx}_#{f_name}"))
           error = if errors in [nil, [], false], do: "", else: ".error"
           case field[:opts] do

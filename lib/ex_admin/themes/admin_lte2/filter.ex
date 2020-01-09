@@ -55,10 +55,8 @@ defmodule ExAdmin.Theme.AdminLte2.Filter do
   def build_field({name, :string}, q, defn) do
     selected_name = string_selected_name(name, q)
     value = get_string_value(name, q)
-    name_label = field_label(name, defn)
     div ".form-group" do
       label_with_null_filter(name, q, defn)
-
 
       div ".row" do
         div ".col-xs-6", style: "padding-right: 0" do
@@ -105,7 +103,6 @@ defmodule ExAdmin.Theme.AdminLte2.Filter do
            ] do
     gte_value = get_value("#{name}_gte", q)
     lte_value = get_value("#{name}_lte", q)
-    name_label = field_label(name, defn)
 
     div ".form-group" do
       label_with_null_filter(name, q, defn)
@@ -156,7 +153,6 @@ defmodule ExAdmin.Theme.AdminLte2.Filter do
     unless check_and_build_association(name, q, defn) do
       selected_name = integer_selected_name(name, q)
       value = get_integer_value(name, q)
-      name_label = field_label(name, defn)
 
       div ".form-group" do
         label_with_null_filter(name, q, defn)
@@ -251,7 +247,6 @@ defmodule ExAdmin.Theme.AdminLte2.Filter do
   end
 
   def build_field({name, Ecto.UUID}, q, defn) do
-    name_label = field_label(name, defn)
     repo = Application.get_env(:ex_admin, :repo)
 
     ids =
@@ -276,6 +271,11 @@ defmodule ExAdmin.Theme.AdminLte2.Filter do
         end
       end
     end
+  end
+
+  def build_field({name, type}, _q, _) do
+    Logger.debug("ExAdmin.Filter: unknown type: #{inspect(type)} for field: #{inspect(name)}")
+    nil
   end
 
   def label_with_null_filter(name, q, defn, title \\nil) do
@@ -305,10 +305,5 @@ defmodule ExAdmin.Theme.AdminLte2.Filter do
       end
     end
 
-  end
-
-  def build_field({name, type}, _q, _) do
-    Logger.debug("ExAdmin.Filter: unknown type: #{inspect(type)} for field: #{inspect(name)}")
-    nil
   end
 end
