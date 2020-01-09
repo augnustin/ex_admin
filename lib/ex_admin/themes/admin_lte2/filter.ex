@@ -124,6 +124,7 @@ defmodule ExAdmin.Theme.AdminLte2.Filter do
               name: "q[#{name}_gte]",
               size: "15",
               type: :text,
+              placeholder: "Date min",
               value: gte_value
             )
           end
@@ -142,6 +143,7 @@ defmodule ExAdmin.Theme.AdminLte2.Filter do
               name: "q[#{name}_lte]",
               size: "15",
               type: :text,
+              placeholder: "Date max",
               value: lte_value
             )
           end

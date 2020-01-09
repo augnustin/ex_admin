@@ -13,12 +13,20 @@ defmodule ExAdmin.Theme.AdminLte2.Table do
       div get_in(schema, [:opts, :box_style]) || ".box" do
         unless get_in(schema, [:opts, :no_header]) do
           div get_in(schema, [:opts, :box_header_style]) || ".box-header.with-border" do
+            ids = schema[:table_for][:resources] |> Enum.map(&Map.get(&1, :id)) |> Enum.reject(&is_nil/1)
+            if length(ids) > 0 do
+              a ".btn.btn-default.pull-right Filter in the #{schema[:name]} list", href: "/admin/#{String.downcase(schema[:name])}?q%5Bid_in%5D=#{Enum.join(ids, ",")}"
+            end
             h3(Keyword.get(schema, :name, ""))
           end
         end
 
         div get_in(schema, [:opts, :box_body_style]) || ".box-body" do
-          do_panel(conn, schema, @table_opts)
+          if length(schema[:table_for][:resources]) > 0 do
+            do_panel(conn, schema, @table_opts)
+          else
+            p "No #{String.downcase(schema[:name])} yet."
+          end
         end
       end
     end

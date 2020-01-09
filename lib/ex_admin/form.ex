@@ -1607,14 +1607,18 @@ defmodule ExAdmin.Form do
 
   defp build_select(_name, type, value, opts) do
     value =
-      if Range.range?(value) do
-        Enum.map(value, fn x ->
-          val = Integer.to_string(x)
-          {val, val}
-        end)
-      else
-        value
+      case value do
+        _first.._last ->
+          Enum.map(value, fn x ->
+            val = Integer.to_string(x)
+            {val, val}
+          end)
+        value -> value
       end
+      # if Range.range?(value) do
+      # else
+      #   value
+      # end
 
     select "", [{:class, "form-control date-time"} | opts] do
       if opts[:prompt], do: handle_prompt(type, opts: %{prompt: opts[:prompt]})

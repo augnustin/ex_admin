@@ -12,7 +12,8 @@ defmodule ExAdmin.Filter do
   @integer_options [
     eq: gettext("Equal To"),
     gt: gettext("Greater Than"),
-    lt: gettext("Less Than")
+    lt: gettext("Less Than"),
+    in: gettext("In list")
   ]
   @string_options [
     contains: gettext("Contains"),
