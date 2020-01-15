@@ -176,23 +176,17 @@ defmodule ExAdmin.Filter do
   def get_integer_value(_, nil), do: ""
 
   def get_integer_value(name, q) do
-    Map.to_list(q)
-    |> Enum.find(fn {k, _v} -> String.starts_with?(k, "#{name}") end)
-    |> case do
-      {_k, v} -> v
-      _ -> ""
-    end
+    Enum.reduce(integer_options(), nil, fn {k, _}, result ->
+      result || q["#{name}_#{k}"]
+    end)
   end
 
   def get_string_value(_, nil), do: ""
 
   def get_string_value(name, q) do
-    Map.to_list(q)
-    |> Enum.find(fn {k, _v} -> String.starts_with?(k, "#{name}") end)
-    |> case do
-      {_k, v} -> v
-      _ -> ""
-    end
+    Enum.reduce(string_options(), nil, fn {k, _}, result ->
+      result || q["#{name}_#{k}"]
+    end)
   end
 
   def build_option(text, name, selected_name) do
