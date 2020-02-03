@@ -181,10 +181,10 @@ defmodule ExAdmin.CSV do
     row =
       Enum.reduce(schema, [], fn
         %{field: name, fun: nil}, acc ->
-          [Map.get(resource, name) |> ExAdmin.Render.to_string() | acc]
+          [Map.get(resource, name) |> ExAdmin.Render.to_string() |> escape_chars() | acc]
 
         %{field: _name, fun: fun}, acc ->
-          [fun.(resource) |> ExAdmin.Render.to_string() | acc]
+          [fun.(resource) |> ExAdmin.Render.to_string() |> escape_chars() | acc]
       end)
       |> Enum.reverse()
 
@@ -195,5 +195,10 @@ defmodule ExAdmin.CSV do
   def write_csv(csv) do
     csv
     |> CSVLixir.write()
+  end
+
+  defp escape_chars(string) do
+    string
+      |> String.replace("\n", " ")
   end
 end
