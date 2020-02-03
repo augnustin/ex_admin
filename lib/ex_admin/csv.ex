@@ -197,6 +197,7 @@ defmodule ExAdmin.CSV do
     |> CSVLixir.write()
   end
 
+  defp escape_chars(nil), do: nil
   defp escape_chars(string) do
     string
       |> String.replace("\n", " ")
