@@ -30,29 +30,6 @@ defmodule ExAdmin.FormTest do
     assert res =~ "name='simple[name]'"
   end
 
-  test "build_control DateTime" do
-    res =
-      ExAdmin.Form.build_control(
-        Ecto.DateTime,
-        %Simple{inserted_at: Ecto.DateTime.utc()},
-        %{},
-        "simple",
-        :inserted_at,
-        "simple_inserted_at"
-      )
-      |> get_clean_html()
-
-    select = Floki.find(res, "select[name='simple[inserted_at][year]']")
-    refute select == []
-    options = Floki.find(res, "select[name='simple[inserted_at][year]'] option")
-    refute options == []
-
-    select = Floki.find(res, "select[name='simple[inserted_at][hour]']")
-    refute select == []
-    options = Floki.find(res, "select[name='simple[inserted_at][hour]'] option")
-    refute options == []
-  end
-
   test "build_control NativeDateTime" do
     res =
       ExAdmin.Form.build_control(
@@ -73,73 +50,6 @@ defmodule ExAdmin.FormTest do
     select = Floki.find(res, "select[name='simple[inserted_at][hour]']")
     refute select == []
     options = Floki.find(res, "select[name='simple[inserted_at][hour]'] option")
-    refute options == []
-  end
-
-  test "build_control Date" do
-    res =
-      ExAdmin.Form.build_control(
-        Ecto.Date,
-        %Simple{inserted_at: Ecto.DateTime.utc()},
-        %{},
-        "simple",
-        :inserted_at,
-        "simple_inserted_at"
-      )
-      |> get_clean_html()
-
-    select = Floki.find(res, "select[name='simple[inserted_at][year]']")
-    refute select == []
-    options = Floki.find(res, "select[name='simple[inserted_at][month]'] option")
-    refute options == []
-  end
-
-  test "build_control Date with prompts" do
-    res =
-      ExAdmin.Form.build_control(
-        Ecto.Date,
-        %Simple{inserted_at: Ecto.DateTime.utc()},
-        %{options: [year: [prompt: "year"], month: [prompt: "month"], day: [prompt: "day"]]},
-        "simple",
-        :inserted_at,
-        "simple_inserted_at"
-      )
-      |> get_clean_html()
-
-    year_prompt =
-      res
-      |> Floki.find("select[name='simple[inserted_at][year]'] option[value='']")
-
-    assert year_prompt == [{"option", [{"value", ""}], ["year"]}]
-
-    month_prompt =
-      res
-      |> Floki.find("select[name='simple[inserted_at][month]'] option[value='']")
-
-    assert month_prompt == [{"option", [{"value", ""}], ["month"]}]
-
-    day_prompt =
-      res
-      |> Floki.find("select[name='simple[inserted_at][day]'] option[value='']")
-
-    assert day_prompt == [{"option", [{"value", ""}], ["day"]}]
-  end
-
-  test "build_control Time" do
-    res =
-      ExAdmin.Form.build_control(
-        Ecto.Time,
-        %Simple{inserted_at: Ecto.DateTime.utc()},
-        %{},
-        "simple",
-        :inserted_at,
-        "simple_inserted_at"
-      )
-      |> get_clean_html()
-
-    select = Floki.find(res, "select[name='simple[inserted_at][hour]']")
-    refute select == []
-    options = Floki.find(res, "select[name='simple[inserted_at][min]'] option")
     refute options == []
   end
 

@@ -22,32 +22,6 @@ defimpl ExAdmin.Render, for: Float do
   def to_string(data), do: Float.to_string(data)
 end
 
-defimpl ExAdmin.Render, for: Ecto.Time do
-  def to_string(dt) do
-    dt
-    |> Ecto.Time.to_string()
-    |> String.replace("Z", "")
-  end
-end
-
-defimpl ExAdmin.Render, for: Ecto.DateTime do
-  def to_string(dt) do
-    dt
-    |> Utils.to_datetime()
-    |> convert_to_local_time(Application.get_env(:ex_admin, :convert_local_time, true))
-    |> Utils.format_datetime()
-  end
-
-  defp convert_to_local_time(date, true), do: :calendar.universal_time_to_local_time(date)
-  defp convert_to_local_time(date, false), do: date
-end
-
-defimpl ExAdmin.Render, for: Ecto.Date do
-  def to_string(dt) do
-    Ecto.Date.to_string(dt)
-  end
-end
-
 defimpl ExAdmin.Render, for: Decimal do
   def to_string(decimal) do
     Decimal.to_string(decimal)

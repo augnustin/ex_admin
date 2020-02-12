@@ -272,14 +272,6 @@ defmodule ExAdmin.Table do
     end
   end
 
-  def handle_contents(%Ecto.DateTime{} = dt, field_name) do
-    markup do
-      td class: to_class("td-", field_name) do
-        text(to_string(dt))
-      end
-    end
-  end
-
   def handle_contents(%DateTime{} = dt, field_name) do
     markup do
       td class: to_class("td-", field_name) do
@@ -289,22 +281,6 @@ defmodule ExAdmin.Table do
   end
 
   def handle_contents(%NaiveDateTime{} = dt, field_name) do
-    markup do
-      td class: to_class("td-", field_name) do
-        text(to_string(dt))
-      end
-    end
-  end
-
-  def handle_contents(%Ecto.Time{} = dt, field_name) do
-    markup do
-      td class: to_class("td-", field_name) do
-        text(to_string(dt))
-      end
-    end
-  end
-
-  def handle_contents(%Ecto.Date{} = dt, field_name) do
     markup do
       td class: to_class("td-", field_name) do
         text(to_string(dt))

@@ -44,28 +44,10 @@ defmodule ExAdmin.ThemeFilterTest do
     assert Floki.find(html, "label.label") |> Floki.text() == "Search EMail Address"
   end
 
-  test "AdminLte2 build_field datetime" do
-    defn = %TestExAdmin.ExAdmin.Simple{index_filters: []}
-
-    html =
-      AdminLte2.Filter.build_field({:inserted_at, Ecto.DateTime}, nil, defn) |> get_clean_html()
-
-    assert Floki.find(html, "label.label") |> Floki.text() == "Inserted At"
-  end
-
   test "AdminLte2 build_field native datetime" do
     defn = %TestExAdmin.ExAdmin.Simple{index_filters: []}
     html = AdminLte2.Filter.build_field({:inserted_at, DateTime}, nil, defn) |> get_clean_html()
     assert Floki.find(html, "label.label") |> Floki.text() == "Inserted At"
-  end
-
-  test "AdminLte2 build_field datetime with label option" do
-    defn = %TestExAdmin.ExAdmin.Simple{index_filters: [inserted_at: [label: "Created On"]]}
-
-    html =
-      AdminLte2.Filter.build_field({:inserted_at, Ecto.DateTime}, nil, defn) |> get_clean_html()
-
-    assert Floki.find(html, "label.label") |> Floki.text() == "Created On"
   end
 
   test "AdminLte2 build_field integer" do
@@ -139,28 +121,10 @@ defmodule ExAdmin.ThemeFilterTest do
     assert Floki.find(html, "label.label") |> Floki.text() == "EMail Address"
   end
 
-  test "ActiveAdmin build_field datetime" do
-    defn = %TestExAdmin.ExAdmin.Simple{index_filters: []}
-
-    html =
-      ActiveAdmin.Filter.build_field({:inserted_at, Ecto.DateTime}, nil, defn) |> get_clean_html()
-
-    assert Floki.find(html, "label.label") |> Floki.text() == "Inserted At"
-  end
-
   test "ActiveAdmin build_field native datetime" do
     defn = %TestExAdmin.ExAdmin.Simple{index_filters: []}
     html = ActiveAdmin.Filter.build_field({:inserted_at, DateTime}, nil, defn) |> get_clean_html()
     assert Floki.find(html, "label.label") |> Floki.text() == "Inserted At"
-  end
-
-  test "ActiveAdmin build_field datetime with label option" do
-    defn = %TestExAdmin.ExAdmin.Simple{index_filters: [inserted_at: [label: "Created On"]]}
-
-    html =
-      ActiveAdmin.Filter.build_field({:inserted_at, Ecto.DateTime}, nil, defn) |> get_clean_html()
-
-    assert Floki.find(html, "label.label") |> Floki.text() == "Created On"
   end
 
   test "ActiveAdmin build_field integer" do
