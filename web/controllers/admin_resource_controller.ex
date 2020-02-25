@@ -190,7 +190,7 @@ defmodule ExAdmin.AdminResourceController do
 
     id = params |> Map.to_list
     query = model.run_query(repo(), defn, :csv, id)
-    csv = Authorization.authorize_query(conn.assigns.resource, conn, query, :csv, id)
+    Authorization.authorize_query(conn.assigns.resource, conn, query, :csv, id)
     |> ExAdmin.Query.execute_query(repo(), :csv, id)
     |> case  do
       [] -> []
@@ -208,9 +208,6 @@ defmodule ExAdmin.AdminResourceController do
       |> send_chunked(200)
     )
   end
-
-  # Can't remember why this is here
-  # @nested_key_list for i <- 1..5, do: {String.to_atom("nested#{i}"), String.to_atom("id#{i}")}
 
   def nested(conn, defn, params) do
     model = defn.__struct__

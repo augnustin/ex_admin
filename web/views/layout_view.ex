@@ -10,7 +10,17 @@ defmodule ExAdmin.LayoutView do
     end
   end
 
-  def site_title do
+  def site_title(%{request_path: request_path}) do
+    parts = request_path
+    |> String.replace("/admin", "")
+    |> String.split("/")
+    |> Enum.filter(fn part -> "#{part}" != "" end)
+    |> Enum.map(&ExAdmin.Utils.humanize(&1))
+    |> Enum.join(" > ")
+    "#{base_site_title()} | #{parts}"
+  end
+
+  def base_site_title() do
     case Application.get_env(:ex_admin, :title) do
       nil ->
         case Application.get_env(:ex_admin, :module) |> Module.split do

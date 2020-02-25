@@ -3,7 +3,7 @@ defmodule ExAdmin.TemplateView do
   use ExAdmin.Web, :view
   # import ExAdmin.Authentication
 
-  def site_title do
+  def site_title(conn) do
     case Application.get_env(:ex_admin, :module) |> Module.split do
       [_, title | _] -> title
       [title] -> title
