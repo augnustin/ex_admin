@@ -201,12 +201,20 @@ defmodule ExAdmin.AdminResourceController do
           ExAdmin.CSV.build_csv(resources)
         end
     end
-    |> Enum.into(
-      conn
-      |> put_resp_content_type("application/csv")
-      |> put_resp_header("content-disposition", "attachment; filename=\"#{params[:resource]}.csv\"")
-      |> send_chunked(200)
-    )
+    |> Enum.reduce_while(
+      (
+        conn
+          |> put_resp_content_type("application/csv")
+          |> put_resp_header("content-disposition", "attachment; filename=\"#{params[:resource]}.csv\"")
+          |> send_chunked(200)
+      ), fn (chunk, conn) ->
+      case Plug.Conn.chunk(conn, chunk) do
+        {:ok, conn} ->
+          {:cont, conn}
+        {:error, :closed} ->
+          {:halt, conn}
+      end
+    end)
   end
 
   def nested(conn, defn, params) do
