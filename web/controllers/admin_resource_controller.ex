@@ -201,11 +201,12 @@ defmodule ExAdmin.AdminResourceController do
           ExAdmin.CSV.build_csv(resources)
         end
     end
-
-    conn
-    |> put_resp_content_type("text/csv")
-    |> put_resp_header("Content-Disposition", "inline; filename=\"#{params[:resource]}.csv\"")
-    |> send_resp(conn.status || 200, csv)
+    |> Enum.into(
+      conn
+      |> put_resp_content_type("application/csv")
+      |> put_resp_header("content-disposition", "attachment; filename=\"#{params[:resource]}.csv\"")
+      |> send_chunked(200)
+    )
   end
 
   # Can't remember why this is here

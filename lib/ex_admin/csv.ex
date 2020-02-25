@@ -191,12 +191,6 @@ defmodule ExAdmin.CSV do
     [row | acc]
   end
 
-  @doc false
-  def write_csv(csv) do
-    csv
-    |> CSVLixir.write()
-  end
-
   defp escape_chars(nil), do: nil
   defp escape_chars(string) do
     string
