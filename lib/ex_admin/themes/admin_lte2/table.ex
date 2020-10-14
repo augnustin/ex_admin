@@ -10,22 +10,55 @@ defmodule ExAdmin.Theme.AdminLte2.Table do
 
   def theme_panel(conn, schema) do
     markup do
+      resources = get_in(schema, [:table_for, :resources])
+      resource_type = case resources do
+        [] -> nil
+        [%struct{} | _rest] -> struct |> Module.split() |> List.last() |> String.downcase() |> Inflex.pluralize()
+      end
+      has_active_attribute = case resources do
+        [%{is_active: _is_active} | _rest] -> true
+        _ -> false
+      end
+      active_resources = if has_active_attribute, do: Enum.filter(resources, &(&1.is_active)), else: resources
+
+      is_active_filter = conn.query_params[resource_type] != "all"
+      displayed_resources = if is_active_filter, do: active_resources, else: resources
+
       div get_in(schema, [:opts, :box_style]) || ".box" do
         unless get_in(schema, [:opts, :no_header]) do
           div get_in(schema, [:opts, :box_header_style]) || ".box-header.with-border" do
-            ids = schema[:table_for][:resources] |> Enum.map(&Map.get(&1, :id)) |> Enum.reject(&is_nil/1)
-            if length(ids) > 0 do
-              a ".btn.btn-default.pull-right Filter in the #{schema[:name]} list", href: "/admin/#{String.downcase(schema[:name])}?q%5Bid_in%5D=#{Enum.join(ids, ",")}"
+            case displayed_resources do
+              [%{id: _id} | _rest] = r ->
+                ids = displayed_resources |> Enum.map(&(&1.id)) |> Enum.reject(&is_nil/1)
+                a(".btn.btn-default.pull-right Filter in the #{resource_type} list", href: "/admin/#{resource_type}?q%5Bid_in%5D=#{Enum.join(ids, ",")}")
+              _ -> nil
             end
-            h3(Keyword.get(schema, :name, ""))
+            h3() do
+              resource_length = length(displayed_resources)
+              span("#{resource_length} #{if has_active_attribute && is_active_filter, do: "active"} #{Inflex.inflect(Keyword.get(schema, :name, ""), resource_length)}")
+              if has_active_attribute do
+                if is_active_filter do
+                  query_params = conn.query_params
+                  |> Map.put(resource_type, "all")
+                  |> URI.encode_query()
+                  a(".btn.btn-text (See all #{length(resources)} #{resource_type})", href: "?#{query_params}")
+                else
+                  query_params = conn.query_params
+                  |> Map.put(resource_type, "active")
+                  |> URI.encode_query()
+                  a(".btn.btn-text (See #{length(active_resources)} active #{resource_type} only)", href: "?#{query_params}")
+                end
+              end
+            end
+
           end
         end
 
         div get_in(schema, [:opts, :box_body_style]) || ".box-body" do
-          if length(schema[:table_for][:resources]) > 0 do
-            do_panel(conn, schema, @table_opts)
+          if resource_type do
+            do_panel(conn, put_in(schema, [:table_for, :resources], displayed_resources), @table_opts)
           else
-            p "No #{String.downcase(schema[:name])} yet."
+            p("No #{String.downcase(schema[:name])} yet.")
           end
         end
       end
