@@ -367,6 +367,13 @@ defmodule ExAdmin.Register do
               attrs
             end
 
+          attrs =
+            if icon = unquote(opts)[:opts][:icon] do
+              attrs ++ [icon: icon]
+            else
+              attrs
+            end
+
           module = unquote(module)
           type = unquote(type)
 
