@@ -28,7 +28,6 @@ defmodule ExAdmin.AdminLte2.LayoutView do
 
   def build_menu_icon(_, opts) when opts in [nil, []], do: opts
   def build_menu_icon(action, [{name, opts} | tail] = opts_arg) do
-    IO.inspect(opts)
     icon = opts[:icon] || case action do
       :new -> "plus-square"
       :edit -> "edit"
