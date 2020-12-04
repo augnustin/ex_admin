@@ -28,7 +28,7 @@ defmodule ExAdmin.Theme.AdminLte2.Table do
         unless get_in(schema, [:opts, :no_header]) do
           div get_in(schema, [:opts, :box_header_style]) || ".box-header.with-border" do
             case displayed_resources do
-              [%{id: _id} | _rest] = r ->
+              [%{id: _id} | _rest] ->
                 ids = displayed_resources |> Enum.map(&(&1.id)) |> Enum.reject(&is_nil/1)
                 a(".btn.btn-default.pull-right Filter in the #{resource_type} list", href: "/admin/#{resource_type}?q%5Bid_in%5D=#{Enum.join(ids, ",")}")
               _ -> nil
