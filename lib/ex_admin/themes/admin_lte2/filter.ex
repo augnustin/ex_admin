@@ -89,6 +89,7 @@ defmodule ExAdmin.Theme.AdminLte2.Filter do
 
   def build_field({name, type}, q, defn)
       when type in [
+             :date,
              NaiveDateTime,
              :naive_datetime,
              DateTime,
