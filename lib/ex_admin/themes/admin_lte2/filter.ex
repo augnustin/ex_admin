@@ -188,29 +188,38 @@ defmodule ExAdmin.Theme.AdminLte2.Filter do
         defn
       ) do
     id = "q_#{owner_key}"
-    name_label = field_label(name, defn)
-    resources = filter_resources(name, assoc, defn)
 
     selected_key =
       case q["#{owner_key}_eq"] do
         nil -> nil
         val -> val
       end
+    field_name = "q[#{owner_key}_eq]"
+    name_label = field_label(name, defn)
+    resources = filter_resources(name, assoc, defn)
+    title = name_label |> String.replace(" Id", "")
 
-    div ".form-group" do
-      title = name_label |> String.replace(" Id", "")
-      label_with_null_filter(owner_key, q, defn, title)
-
-      select "##{id}.form-control", name: "q[#{owner_key}_eq]" do
-        option("Any", value: "")
-
-        for r <- resources do
-          id = ExAdmin.Schema.get_id(r)
-          name = ExAdmin.Helpers.display_name(r)
-          selected = if "#{id}" == selected_key, do: [selected: :selected], else: []
-          option(name, [{:value, "#{id}"} | selected])
+    case filter_options(defn, name, :type) do
+      :hidden ->
+        input(id: id, name: field_name, type: :hidden, value: selected_key)
+      :present_only ->
+        div ".form-group" do
+          label_with_null_filter(owner_key, q, defn, title)
         end
-      end
+      _ ->
+        div ".form-group" do
+          label_with_null_filter(owner_key, q, defn, title)
+          select "##{id}.form-control", name: field_name do
+            option("Any", value: "")
+
+            for r <- resources do
+              id = ExAdmin.Schema.get_id(r)
+              name = ExAdmin.Helpers.display_name(r)
+              selected = if "#{id}" == selected_key, do: [selected: :selected], else: []
+              option(name, [{:value, "#{id}"} | selected])
+            end
+          end
+        end
     end
   end
 
