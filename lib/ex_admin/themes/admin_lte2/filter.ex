@@ -196,7 +196,6 @@ defmodule ExAdmin.Theme.AdminLte2.Filter do
       end
     field_name = "q[#{owner_key}_eq]"
     name_label = field_label(name, defn)
-    resources = filter_resources(name, assoc, defn)
     title = name_label |> String.replace(" Id", "")
 
     case filter_options(defn, name, :type) do
@@ -212,7 +211,7 @@ defmodule ExAdmin.Theme.AdminLte2.Filter do
           select "##{id}.form-control", name: field_name do
             option("Any", value: "")
 
-            for r <- resources do
+            for r <- filter_resources(name, assoc, defn) do
               id = ExAdmin.Schema.get_id(r)
               name = ExAdmin.Helpers.display_name(r)
               selected = if "#{id}" == selected_key, do: [selected: :selected], else: []
