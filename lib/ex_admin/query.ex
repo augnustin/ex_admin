@@ -44,12 +44,12 @@ defmodule ExAdmin.Query do
 
   defp paginate(query, repo, :index, params) do
     query
-    |> filter(params)
+    |> ExQueb.filter(params)
     |> repo.paginate(params)
   end
 
   defp paginate(query, repo, :csv, params) do
-    apply(repo, get_method(:csv), [query |> filter(params)])
+    apply(repo, get_method(:csv), [query |> ExQueb.filter(params)])
   end
 
   defp paginate(query, repo, :nested, _params) do

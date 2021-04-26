@@ -61,16 +61,7 @@ defmodule ExAdmin.Filter do
   end
 
   def field_type(model, field) do
-    case model.__schema__(:type, field) do
-      nil ->
-        case model.__schema__(:association, field) do
-          %Ecto.Association.BelongsTo{} = belongs_to -> belongs_to
-          _ -> nil
-        end
-
-      other ->
-        other
-    end
+    model.__schema__(:type, field) || model.__schema__(:association, field)
   end
 
   def field_label(field, defn) do

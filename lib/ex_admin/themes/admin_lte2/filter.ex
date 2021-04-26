@@ -222,6 +222,17 @@ defmodule ExAdmin.Theme.AdminLte2.Filter do
     end
   end
 
+  def build_field(
+        {name, %type{}},
+        q,
+        defn
+      ) when type in [Ecto.Association.Has, Ecto.Association.ManyToMany] do
+
+    div ".form-group" do
+      label_with_null_filter(name, q, defn, "With #{field_label(name, defn)}")
+    end
+  end
+
   def build_field({name, {:embed, %Ecto.Embedded{
    }}}, q, defn) do
 
@@ -281,12 +292,16 @@ defmodule ExAdmin.Theme.AdminLte2.Filter do
   end
 
   def label_with_null_filter(name, q, defn, title \\nil) do
+    title_with_default = title || field_label(name, defn)
+    scope = filter_options(defn, name, :scope)
+
     not_null_opts = [
       id: "q_#{name}_is_not_null",
       name: "q[#{name}_is]",
       type: :radio,
       value: "not_null",
     ] ++ (if q["#{name}_is"] == "not_null", do: [checked: :checked], else: [])
+
     null_opts = [
       id: "q_#{name}_is_null",
       name: "q[#{name}_is]",
@@ -294,14 +309,31 @@ defmodule ExAdmin.Theme.AdminLte2.Filter do
       value: "null",
     ] ++ (if q["#{name}_is"] == "null", do: [checked: :checked], else: [])
 
+
     p(".label.with-null-filter") do
-      span("#{title || field_label(name, defn)}: ")
-      label(".label-inline", for: "q_#{name}_is_not_null", title: "Present") do
+      span("#{title_with_default}: ")
+      label(".label-inline", for: "q_#{name}_is_not_null", title: (if scope, do: "All", else: "Present")) do
         input(not_null_opts)
         span("Present")
       end
+      if scope do
+        scoped_name = "#{scope}_#{String.downcase(field_label(name, defn))}"
+        scope_title = ExAdmin.Utils.titleize(scope)
+
+        scoped_opts = [
+          id: "q_#{scoped_name}_is_not_null",
+          name: "q[#{scoped_name}_is]",
+          type: :radio,
+          value: "not_null",
+        ] ++ (if q["#{scoped_name}_is"] == "not_null", do: [checked: :checked], else: [])
+
+        label(".label-inline", for: "q_#{scoped_name}_is_not_null", title: scope_title) do
+          input(scoped_opts)
+          span(scope_title)
+        end
+      end
       span(" ")
-      label(".label-inline", for: "q_#{name}_is_null", title: "Empty") do
+      label(".label-inline", for: "q_#{name}_is_null", title: (if scope, do: "None", else: "Empty")) do
         input(null_opts)
         span("Empty")
       end

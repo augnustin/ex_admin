@@ -9,7 +9,7 @@
   "earmark": {:hex, :earmark, "0.2.1", "ba6d26ceb16106d069b289df66751734802777a3cbb6787026dd800ffeb850f3", [:mix], [], "hexpm"},
   "ecto": {:hex, :ecto, "3.3.2", "002aa428c752a8ee4bb65baa9d1041f0514d7435d2e21d58cb6aa69a1076721d", [:mix], [{:decimal, "~> 1.6 or ~> 2.0", [hex: :decimal, repo: "hexpm", optional: false]}, {:jason, "~> 1.0", [hex: :jason, repo: "hexpm", optional: true]}], "hexpm"},
   "ex_doc": {:hex, :ex_doc, "0.12.0", "b774aabfede4af31c0301aece12371cbd25995a21bb3d71d66f5c2fe074c603f", [:mix], [{:earmark, "~> 0.2", [hex: :earmark, repo: "hexpm", optional: false]}], "hexpm"},
-  "ex_queb": {:git, "https://github.com/augnustin/ex_queb.git", "d9c6bf8d8cde7b6e79c25aa53c8bf2fe21fd46ab", []},
+  "ex_queb": {:git, "https://github.com/augnustin/ex_queb.git", "95b67c5f45fa28334f8b29c8bd397ab159ed924c", []},
   "exactor": {:hex, :exactor, "2.2.4", "5efb4ddeb2c48d9a1d7c9b465a6fffdd82300eb9618ece5d34c3334d5d7245b1", [:mix], [], "hexpm"},
   "excoveralls": {:hex, :excoveralls, "0.10.3", "b090a3fbcb3cfa136f0427d038c92a9051f840953ec11b40ee74d9d4eac04d1e", [:mix], [{:hackney, "~> 1.13", [hex: :hackney, repo: "hexpm", optional: false]}, {:jason, "~> 1.0", [hex: :jason, repo: "hexpm", optional: false]}], "hexpm"},
   "exjsx": {:hex, :exjsx, "4.0.0", "60548841e0212df401e38e63c0078ec57b33e7ea49b032c796ccad8cde794b5c", [:mix], [{:jsx, "~> 2.8.0", [hex: :jsx, repo: "hexpm", optional: false]}], "hexpm"},
