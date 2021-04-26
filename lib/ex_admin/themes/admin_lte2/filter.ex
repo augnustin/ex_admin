@@ -312,7 +312,11 @@ defmodule ExAdmin.Theme.AdminLte2.Filter do
 
     p(".label.with-null-filter") do
       span("#{title_with_default}: ")
-      label(".label-inline", for: "q_#{name}_is_not_null", title: (if scope, do: "All", else: "Present")) do
+      label(
+        ".label-inline",
+        for: "q_#{name}_is_not_null",
+        title: (if not is_nil(scope), do: "All", else: "Present")
+      ) do
         input(not_null_opts)
         span("Present")
       end
@@ -327,13 +331,22 @@ defmodule ExAdmin.Theme.AdminLte2.Filter do
           value: "not_null",
         ] ++ (if q["#{scoped_name}_is"] == "not_null", do: [checked: :checked], else: [])
 
-        label(".label-inline", for: "q_#{scoped_name}_is_not_null", title: scope_title) do
+        span(" ")
+        label(
+          ".label-inline",
+          for: "q_#{scoped_name}_is_not_null",
+          title: scope_title
+        ) do
           input(scoped_opts)
           span(scope_title)
         end
       end
       span(" ")
-      label(".label-inline", for: "q_#{name}_is_null", title: (if scope, do: "None", else: "Empty")) do
+      label(
+        ".label-inline",
+        for: "q_#{name}_is_null",
+        title: (if not is_nil(scope), do: "None", else: "Empty")
+      ) do
         input(null_opts)
         span("Empty")
       end
