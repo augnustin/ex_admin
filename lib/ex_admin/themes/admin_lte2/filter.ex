@@ -311,14 +311,15 @@ defmodule ExAdmin.Theme.AdminLte2.Filter do
 
 
     p(".label.with-null-filter") do
+      radio_label = if scope, do: "All", else: "Present"
       span("#{title_with_default}: ")
       label(
         ".label-inline",
         for: "q_#{name}_is_not_null",
-        title: (if not is_nil(scope), do: "All", else: "Present")
+        title: (radio_label)
       ) do
         input(not_null_opts)
-        span("Present")
+        span(radio_label)
       end
       if scope do
         scoped_name = "#{scope}_#{String.downcase(field_label(name, defn))}"
@@ -341,14 +342,16 @@ defmodule ExAdmin.Theme.AdminLte2.Filter do
           span(scope_title)
         end
       end
+      radio_label = if scope, do: "None", else: "Empty"
+
       span(" ")
       label(
         ".label-inline",
         for: "q_#{name}_is_null",
-        title: (if not is_nil(scope), do: "None", else: "Empty")
+        title: radio_label
       ) do
         input(null_opts)
-        span("Empty")
+        span(radio_label)
       end
     end
 
